@@ -27,7 +27,7 @@ npm install express mysql2 nodemon
 const express = require('express')
 const mysql2 = require('mysql2');
 
-const PORT = 9000;
+const PORT = 3000;
 const HOST = '0.0.0.0' //Uma forma do docker entender que ele só precisa repassar a porta 3000
 
 const connection = mysql2.createConnection({

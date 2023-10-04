@@ -163,22 +163,9 @@ INSERT INTO products VALUE(0, 'Curso 1', 2500);
 INSERT INTO products VALUE(0, 'Curso 2', 900);
 ```
 
-## Executar comandos dentro de um Container
-
-Vamos acessar o container da base de dados para criar um database e executar um script
-
-```
-docker exec -i database-mysql mysql -uroot -p123 < db/script.sql
-```
-
-**docker exec:** indica que faremos uma execução dentro do container
-**tag i:** permite que o processo abra de forma interativa. Sempre que precisamos rodar um processo interativo. 
-**database-mysql:** é o nome do Container
-**tag p:** password e 123 é a minha senha 'forte'. rsrsrsrs
-**db/script.sql** é o caminho do script que será executado. 
-
-
 ## Acessar o container e executar um bash
+
+Vamos acessar o container para executar o script. 
 
 ```
 docker exec -it database-mysql /bin/bash

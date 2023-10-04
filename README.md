@@ -84,22 +84,22 @@ node_modules
 ## Criar o dockerfile 
 Dockerfile 
 ```
-# Use an official Node.js runtime as a base image
+# Usar uma imagem existente do node
 FROM node:alpine
 
-# Set the working directory inside the container
+# Configurar o caminho dentro do container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
+# Copiar os arquivos
 COPY package*.json ./
 
-# Install Node.js dependencies
+# Executar npm install 
 RUN npm install
 
-# Copy the rest of your application's source code to the working directory
+# Copiar o resto da aplicação
 COPY . .
 
-# Expose the port your application will run on (replace 3000 with your app's port if necessary)
+# Expor a porta 
 EXPOSE 3000
 
 CMD ["npm", "start"]

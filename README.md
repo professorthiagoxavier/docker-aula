@@ -75,16 +75,14 @@ app.get('/', (req, res) => {
 app.listen(PORT, HOST)
 ```
 
-*** Criar o dockeignore e o git ignore
+## Criar o dockerignore e o gitignore
 
 Vamos criar tanto o .gitignore quanto o dockignore para bloquearmos o envio da pasta nodemodule
 
 - Conteudo:
-- 
 ```
 node_modules
 ```
-
 
 
 ### Criar a imagem docker
@@ -114,46 +112,47 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-## Criar o container
+## Criar a imagem 
 
-Vamos criar o container a partir do dockerfile
+Vamos criar a imagem a partir do dockerfile. Precisamos executar o local do dockerfile
 
 ```
 docker build -t app-node .
 ```
 
-##Rodar container node 
+**docker build:** utilizado para executar o build do dockerfile
+**-t:**: nome da imagem
+**. (ponto)**: indica que exite um arquivo dockerfile
+
+## Criar o container node 
+
+Vamos criar um container baseado na imagem que acabamos de criar.
 
 ```
 docker run -p 4000:4000 -d app-node
 ```
-
+**docker run** vamos criar um container
+**-p** vamos indicar um mapeamento de porta
+**4000:4000** irá expor a porta interna. No exemplo a porta 4000 interna será exposta pela porta 4000 externa. 
 
 ##Criar um container mysql 
 - Acessar o docker hub: https://hub.docker.com/_/mysql
+
+Para este exemplo é importante deixarmos claro que iremos utilizar uma imagem existente. 
 
 
 ```
 docker run --name database-mysql -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 -d mysql
 ```
-
-
-
-
 **docker run:** já ira executar a o container, caso a imagem não exista, fará o download
-**name:** indica que você dará um nome ao Container
+**name** indica o nome do container
+**e** utlizado para configurar o ambiente
+**MYSQL_ROOT_PASSWORD=123** utilizado para definir a senha da base 
+**mysql**: a imagem padrão do mysql. Neste caso fará o pull do dockerhub. 
 
 
 
-
-****Conectar a api no node 
-
-
-
-
-
-
-##Criar uma arquivo sql 
+## Criar uma arquivo sql 
 
 
 ```
@@ -171,44 +170,39 @@ INSERT INTO products VALUE(0, 'Curso 1', 2500);
 INSERT INTO products VALUE(0, 'Curso 2', 900);
 ```
 
+## Executar comandos dentro de um Container
 
-##Executar comandos dentro de um Container
-
-
+Vamos acessar o container da base de dados para criar um database e executar um script
 
 ```
 docker exec -i database-mysql mysql -uroot -p123 < db/script.sql
 ```
 
-
-docker exec: indica que faremos uma execução dentro do container
-tag i: permite que o processo abra de forma interativa. Sempre que precisamos rodar um processo interativo. 
-database-mysql: é o nome do Container
-tag p: password e 123 é a minha senha 'forte'. rsrsrsrs
-db/script.sql é o caminho do script que será executado. 
-
+**docker exec:** indica que faremos uma execução dentro do container
+**tag i:** permite que o processo abra de forma interativa. Sempre que precisamos rodar um processo interativo. 
+**database-mysql:** é o nome do Container
+**tag p:** password e 123 é a minha senha 'forte'. rsrsrsrs
+**db/script.sql** é o caminho do script que será executado. 
 
 
-##Acessar o container e executar um bash
+## Acessar o container e executar um bash
 
 ```
 docker exec -it database-mysql /bin/bash
 ````
 
-it: acessar de forma interativa
-database-mysql: nome do container 
-/bin/bash: indica que acessaremos via bash 
+**it:** acessar de forma interativa
+**database-mysql:** nome do container 
+**/bin/bash:** indica que acessaremos via bash 
 
 
-Após acessar vamos logar no mysql 
-
+## Após acessar vamos logar no mysql 
 
 ```
 mysql -uroot -p123 
 ```
 
-Vamos agora acessar a database 
-
+## Vamos agora acessar a database 
 
 ```
 use fiap
@@ -224,12 +218,9 @@ Por último vamos fazer o select na tabela para confirmar a inserção dos dados
 
 Para sair do container podemos utilizar exit. 
 
-
-
-##Criar volumes
+### Criar volumes
 
 É possível compartilhar uma pasta do seu host com o container 
-
 
 Antes, vamos parar nosso container 
 
@@ -241,20 +232,18 @@ docker stop database-mysql
 **database-mysql** o nome do container 
 
 
-**No linux**
+## No linu
 
 ```
 docker run --name database-mysql -v $(pwd)/db/data:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 -d mysql
 ```
 
-**No windows
+## No windows
 ```
 
 docker run --name database-mysql -v db/data:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 -d mysql
 
 ```
-
-
 
 **db/data**: o nome do volume 
 **tag v**: indica o volume
@@ -263,37 +252,79 @@ docker run --name database-mysql -v db/data:/var/lib/mysql  -e MYSQL_ROOT_PASSWO
 **mysql-container**: o nome do container
 
 
+### Criar um link para Container
+
+Para podermos conectar o container node ao container do mysql iremos expor um link entre eles. 
 
 
+Para isso vamos parar o container: 
+```
+docker ps
 
-###Criar um link para Container
+docker stop nome_container_ou_id
+```
 
+# Executar o container 
+
+Vamos executar o container do node com a criação do link 
+
+```
 docker run -p 4000:4000 -d --rm --name node-container --link database-mysql app-node
+````
+
+**link** indica um link entra o container
+**database-mysql** nome do container mysql 
+**app-node** nome da imagem node criada
+
+### Alterar a conexão
+
+Antes de subir é importante alterar o index e incluir o nome do link na conexão. 
+
+- Parar o container node novamente
+
+```
+docker ps
+
+docker stop nome_container
+```
+
+- Alterar a conexão da base:
+
+```
+const connection = mysql2.createConnection({
+    //host: 'database-mysql',
+    host: 'localhost',
+    user: 'root',
+    password: '123',
+    database: 'fiap',
+  });
+```
+
+# Build da imagem node novamente 
+
+
+```
+docker build -t app-node .
+```
+
+Executar o container 
+
+```
+docker run -p 4000:4000 -d --rm --name node-container --link database-mysql app-node
+````
 
 
 
 
 
+### Referências: 
 
-
-###Referências: 
-
-https://www.youtube.com/watch?v=AVNADGzXrrQ
-
-
+- https://www.youtube.com/watch?v=AVNADGzXrrQ
+- https://hub.docker.com/
 
 
 
 
-
-
-
-
-
-
-
-
-docker exec -it 54d15030f602 bash
 
 
 

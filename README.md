@@ -293,6 +293,22 @@ Executar o container
 docker run -p 4000:4000 -d --rm --name node-container --link database-mysql app-node
 ````
 
+## Alguns comandos
+
+| Comando   | Utilização | Parametros      |
+|--------|-------|-------------|
+| sudo service docker start | start service docker    | Nova York   |
+| docker run -d -p 80:80 docker/getting-started   | Executar um container a partir de uma imagem já existente    | "> -d: deamon, executação em background;
+> -p: porta" |
+| docker container ps | verificar container em execução     | Chicago     |
+|docker logs -f {{idContainer}} |verificar os logs do container | > -f vai manter em primeiro plano|
+|docker stop {{idContainer}}| parar um container| |
+|docker rm {{idContainer}}|remover um container|  |
+|docker container exec -it {{idContainer}} /bin/sh| Acessar o container | > -it iterativo|
+|ps -ef | Dentro do container podemos ver tudo que está rodando| |
+|docker build -t {{nomeImagem}} . |Build da imagem, o ponto ao final buscará o arquivo no local onde está sendo executado| > -t tag|
+|docker run -d -p 3000:3000 getting-starded:latest| Executar uma imagem | |
+|docker ps -a| Pesquisar todos os container| |
 
 
 

@@ -14,31 +14,84 @@ Container é o processo de criar e executar containers a partir de imagens Docke
 
 ## Iniciar o node 
 
-> npm init -y
-
-
-
-## Criar o dockerfile 
-Dockerfile 
+```
+ npm init -y
+```
 
 
 
 ### Criar o index.js
-- Instalar o express 
-> npm install express
-
-
-
-*** Criar o dockeignore 
-
-
-
-***criar a imagem
+- Instalar o express, mysql2 e nodemon
 
 ```
-docker build -t app-node .
+npm install express mysql2 nodemon
 ```
 
+
+## Código index.js
+
+```
+const express = require('express')
+const mysql2 = require('mysql2');
+
+const PORT = 9000;
+const HOST = '0.0.0.0' //Uma forma do docker entender que ele só precisa repassar a porta 3000
+
+const connection = mysql2.createConnection({
+    //host: 'database-mysql',
+    host: 'localhost',
+    user: 'root',
+    password: '123',
+    database: 'fiap',
+  });
+
+  connection.connect((err) => {
+    if (err) {
+      console.error('Error connecting to MySQL:', err);
+      return;
+    }
+    console.log('Connected to MySQL database');
+  });
+
+const app = express()
+
+
+app.get('/', (req, res) => {
+    const query = 'SELECT * FROM products';
+
+    connection.query(query, (err, results, fields) => {
+      if (err) {
+        console.error('Error executing SELECT query:', err);
+        return;
+      }
+    
+      //console.log('Query results:');
+      res.send(results.map(item => ({ name: item.name, price: item.price })));
+ 
+    });
+})
+
+
+app.listen(PORT, HOST)
+```
+
+*** Criar o dockeignore e o git ignore
+
+Vamos criar tanto o .gitignore quanto o dockignore para bloquearmos o envio da pasta nodemodule
+
+- Conteudo:
+- 
+```
+node_modules
+```
+
+
+
+### Criar a imagem docker
+
+
+## Criar o dockerfile 
+Dockerfile 
 ```
 # Use an official Node.js runtime as a base image
 FROM node:alpine
@@ -59,6 +112,14 @@ COPY . .
 EXPOSE 3000
 
 CMD ["npm", "start"]
+```
+
+## Criar o container
+
+Vamos criar o container a partir do dockerfile
+
+```
+docker build -t app-node .
 ```
 
 ##Rodar container node 

@@ -12,13 +12,13 @@ Em resumo, imagem é template que pode ser utilizado.
 Container é o processo de criar e executar containers a partir de imagens Docker. 
 
 
-##Iniciar o node 
+## Iniciar o node 
 
 > npm init -y
 
 
 
-***Criar o dockerfile 
+## Criar o dockerfile 
 Dockerfile 
 
 

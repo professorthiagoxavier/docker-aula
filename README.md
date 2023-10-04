@@ -1,12 +1,5 @@
 # Introdução ao Docker 
 
-Uma imagem é um template
-
-Você pode usar 
-
-
-### Trabalhando com docker
-
 Em resumo, imagem é template que pode ser utilizado. 
 
 Container é o processo de criar e executar containers a partir de imagens Docker. 

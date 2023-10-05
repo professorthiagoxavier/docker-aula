@@ -122,7 +122,7 @@ docker build -t app-node .
 Vamos criar um container baseado na imagem que acabamos de criar.
 
 ```
-docker run -p 4000:4000 -d app-node
+docker run -p 3000:3000 -d app-node
 ```
 **docker run** vamos criar um container
 **-p** vamos indicar um mapeamento de porta

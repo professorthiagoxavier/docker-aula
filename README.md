@@ -318,7 +318,7 @@ docker run -p 4000:4000 -d --rm --name node-container --link database-mysql app-
 - https://www.youtube.com/watch?v=AVNADGzXrrQ
 - https://hub.docker.com/
 - https://www.youtube.com/watch?v=Kzcz-EVKBEQ&t=1115s
-
+- https://www.freecodecamp.org/portuguese/news/como-remover-imagens-e-conteineres-no-docker/
 
 
 

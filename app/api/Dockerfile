@@ -1,15 +1,19 @@
+# Use an official Node.js runtime as a base image
 FROM node:alpine
 
-#pasta padrão
-WORKDIR /usr/app 
+# Set the working directory inside the container
+WORKDIR /usr/src/app
 
-#copiar todos os arquivos que começam com package para dentro da pasta /usr/app
-COPY package*.json ./  
-RUN npm install 
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-COPY ..
+# Install Node.js dependencies
+RUN npm install
 
-#Qual a porta precisa ser exposta
+# Copy the rest of your application's source code to the working directory
+COPY . .
+
+# Expose the port your application will run on (replace 3000 with your app's port if necessary)
 EXPOSE 3000
 
 CMD ["npm", "start"]

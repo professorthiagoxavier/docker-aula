@@ -308,6 +308,8 @@ docker run -p 4000:4000 -d --rm --name node-container --link database-mysql app-
 |docker build -t {{nomeImagem}} . |Build da imagem, o ponto ao final buscará o arquivo no local onde está sendo executado| > -t tag|
 |docker run -d -p 3000:3000 getting-starded:latest| Executar uma imagem | |
 |docker ps -a| Pesquisar todos os container| |
+|docker stop $(docker ps -a -q)| Remover todos os containers em execução | |
+|docker rm $(docker ps -a -q) |Remover todos os containers parados | |
 
 
 

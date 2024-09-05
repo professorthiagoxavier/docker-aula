@@ -70,7 +70,7 @@ app.listen(PORT, HOST)
 
 ## Criar o dockerignore e o gitignore
 
-Vamos criar tanto o .gitignore quanto o dockignore para bloquearmos o envio da pasta nodemodule
+Vamos criar tanto o .dockerignore quanto o dockignore para bloquearmos o envio da pasta nodemodule
 
 - Conteudo:
 ```

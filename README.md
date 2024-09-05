@@ -126,7 +126,7 @@ docker run -p 3000:3000 -d app-node
 ```
 **docker run** vamos criar um container
 **-p** vamos indicar um mapeamento de porta
-**4000:4000** irá expor a porta interna. No exemplo a porta 4000 interna será exposta pela porta 4000 externa. 
+**3000:3000** irá expor a porta interna. No exemplo a porta 3000 interna será exposta pela porta 3000 externa. 
 
 ##Criar um container mysql 
 - Acessar o docker hub: https://hub.docker.com/_/mysql
@@ -212,7 +212,7 @@ docker stop database-mysql
 **database-mysql** o nome do container 
 
 
-## No linu
+## No linux
 
 ```
 docker run --name database-mysql -v $(pwd)/db/data:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 -d mysql
@@ -290,7 +290,7 @@ docker build -t app-node .
 Executar o container 
 
 ```
-docker run -p 4000:4000 -d --rm --name node-container --link database-mysql app-node
+docker run -p 3000:3000 -d --rm --name node-container --link database-mysql app-node
 ````
 
 ###Criar uma aplicação web
@@ -373,6 +373,26 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Iniciar o server
 CMD ["apache2-foreground"]
+
+```
+
+## Criar a imagem 
+
+Vamos criar uma imagem da aplicação PHP
+
+```
+#1 - Acesse a pasta do dockerfile do app em PHP
+#2 - Execute o comando abaixo
+
+docker build -t web .
+
+#3 - Após criar a imagem, vamos subir o container
+
+docker run -p 8000:80 -d --rm --name front --link node-container web
+
+#Lembrando que vamos criar um link com o app node para poder consumir a api internamente (dentro do container)
+
+# Neste exemplo a porta 8000 será externa, a porta 80 será a interna (container)
 
 ```
 

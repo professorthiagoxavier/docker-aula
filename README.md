@@ -249,7 +249,7 @@ docker stop nome_container_ou_id
 Vamos executar o container do node com a criação do link 
 
 ```
-docker run -p 4000:4000 -d --rm --name node-container --link database-mysql app-node
+docker run -p 3000:3000 -d --rm --name node-container --link database-mysql app-node
 ````
 
 **link** indica um link entra o container

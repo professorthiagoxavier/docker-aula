@@ -398,22 +398,21 @@ docker run -p 8000:80 -d --rm --name front --link node-container web
 
 ## Alguns comandos
 
-| Comando   | Utilização | Parametros      |
-| docker ls| visualizar os container ativos |  |
-|--------|-------|-------------|
-| sudo service docker start | start service docker    | Nova York   |
-| docker run -d -p 80:80 docker/getting-started   | Executar um container a partir de uma imagem já existente    | "> -d: deamon, executação em background;> -p: porta" |
-| docker container ps | verificar container em execução     | Chicago     |
-|docker logs -f {{idContainer}} |verificar os logs do container | > -f vai manter em primeiro plano|
-|docker stop {{idContainer}}| parar um container| |
-|docker rm {{idContainer}}|remover um container|  |
-|docker container exec -it {{idContainer}} /bin/sh| Acessar o container | > -it iterativo|
-|ps -ef | Dentro do container podemos ver tudo que está rodando| |
-|docker build -t {{nomeImagem}} . |Build da imagem, o ponto ao final buscará o arquivo no local onde está sendo executado| > -t tag|
-|docker run -d -p 3000:3000 getting-starded:latest| Executar uma imagem | |
-|docker ps -a| Pesquisar todos os container| |
-|docker stop $(docker ps -a -q)| Remover todos os containers em execução | |
-|docker rm $(docker ps -a -q) |Remover todos os containers parados | |
+| Comando                                      | Utilização                                      | Parâmetros / Observações                                                                 |
+|----------------------------------------------|--------------------------------------------------|------------------------------------------------------------------------------------------|
+| `docker container ls` ou `docker ps`         | Listar containers ativos                         | —                                                                                        |
+| `docker ps -a`                               | Listar todos os containers (ativos e parados)    | —                                                                                        |
+| `sudo service docker start`                  | Iniciar o serviço do Docker (Linux)              | Requer permissões de root/sudo                                                           |
+| `docker run -d -p 80:80 docker/getting-started` | Executar um container em background              | `-d`: modo daemon (background)<br>`-p 80:80`: mapeia porta host:container                |
+| `docker logs -f <ID_CONTAINER>`              | Acompanhar logs em tempo real                    | `-f`: acompanha logs continuamente (follow)                                              |
+| `docker stop <ID_CONTAINER>`                 | Parar um container em execução                   | Aceita ID ou nome do container                                                           |
+| `docker rm <ID_CONTAINER>`                   | Remover um container parado                      | —                                                                                        |
+| `docker container exec -it <ID_CONTAINER> /bin/sh` | Acessar terminal interativo do container       | `-it`: modo interativo + TTY<br>`/bin/sh`: shell alpine (ou `/bin/bash` se disponível)   |
+| `ps -ef`                                     | Ver processos ativos dentro do container         | Usado após acessar o container com `exec -it`                                            |
+| `docker build -t getting-started .`          | Construir imagem a partir do Dockerfile local    | `-t`: atribui tag/nome à imagem<br>`.`: contexto de build (local atual)                  |
+| `docker run -d -p 3000:3000 getting-started:latest` | Executar container a partir de uma imagem      | Corrigido: `getting-starded` → `getting-started`                                         |
+| `docker stop $(docker ps -aq)`               | Parar **todos** os containers                    | `$(docker ps -aq)`: retorna IDs de todos os containers                                   |
+| `docker rm $(docker ps -aq)`                 | Remover **todos** os containers (parados)        | Use após `docker stop` para limpar completamente                                         |
 
 
 

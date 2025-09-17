@@ -399,7 +399,7 @@ docker run -p 8000:80 -d --rm --name front --link node-container web
 ## Alguns comandos
 
 | Comando   | Utilização | Parametros      |
-| docker ls| visualizar os container ativos | 
+| docker ls| visualizar os container ativos |  |
 |--------|-------|-------------|
 | sudo service docker start | start service docker    | Nova York   |
 | docker run -d -p 80:80 docker/getting-started   | Executar um container a partir de uma imagem já existente    | "> -d: deamon, executação em background;> -p: porta" |
